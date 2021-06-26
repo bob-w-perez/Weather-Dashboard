@@ -1,0 +1,53 @@
+:root {
+    font-size: 20px;
+}
+
+body {
+
+}
+
+h1{
+    font-size: 3em;
+}
+
+h2 {
+    font-size: 2em;
+}
+
+h3 {
+    font-size: 1.7em;
+}
+
+span {
+    margin: 0 0.2em;
+}
+
+p {
+    font-size: 1em;
+}
+
+/*----------------------------------------------------*/
+
+header {
+    background-color: blue;
+    color: white;
+    text-align: center;
+}
+
+#grid-wrapper {
+    display: grid;
+}
+
+#current-uvi {
+    padding: 0.2em 0.7em;
+    font-size: 0.9em;
+    border-radius: 0.1em;
+}
+
+/*----------------------------------------------------*/
+
+@media screen and (min-width: 800px) {
+    #grid-wrapper {
+        grid-template-columns: 1fr 3fr;
+    }
+}
