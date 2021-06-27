@@ -28,7 +28,7 @@ function handleSearch (event) {
 
 
 function getWeatherInfo (query) {
-    let apiUrl = 'http://api.openweathermap.org/data/2.5/weather?units=imperial&q=' + query + '&appid=' + APIkey;
+    let apiUrl = 'https://api.openweathermap.org/data/2.5/weather?units=imperial&q=' + query + '&appid=' + APIkey;
 
     fetch(apiUrl).then(function(response){
         if (response.ok) {
@@ -51,7 +51,7 @@ function getWeatherInfo (query) {
 // so this function takes the Lat/Lon values retrieved from the 'weather' results
 // and uses them to make a request using 'onecall'
 function oneCallPass (lat, lon, location) {
-    let apiUrl = 'http://api.openweathermap.org/data/2.5/onecall?units=imperial&lat=' + lat + '&lon=' + lon + '&appid=' + APIkey;
+    let apiUrl = 'https://api.openweathermap.org/data/2.5/onecall?units=imperial&lat=' + lat + '&lon=' + lon + '&appid=' + APIkey;
 
     fetch(apiUrl).then(function(response) {
         if(response.ok){ 
@@ -73,7 +73,7 @@ function oneCallPass (lat, lon, location) {
 function displayCurrent(info, location) {
     cityName.innerHTML = location;
     todayDate.textContent = moment().format('MMMM Do, YYYY');
-    currentIcon.setAttribute('src', 'http://openweathermap.org/img/w/' + info.weather[0].icon + '.png');
+    currentIcon.setAttribute('src', 'https://openweathermap.org/img/w/' + info.weather[0].icon + '.png');
     currentIcon.setAttribute('alt', info.weather[0].description);
     currentTemp.textContent = 'Temp: ' + Math.round(Number(info.temp)) + ' \u00B0F';
     currentWind.textContent = 'Wind: ' + Math.round(Number(info.wind_speed)) + ' mph';
@@ -113,7 +113,7 @@ function makeCard (info) {
     cardDate.textContent = moment.unix(info.dt).format('M/D/YY');
 
     let cardIcon = document.createElement('img');
-    cardIcon.setAttribute('src', 'http://openweathermap.org/img/w/' + info.weather[0].icon + '.png');
+    cardIcon.setAttribute('src', 'https://openweathermap.org/img/w/' + info.weather[0].icon + '.png');
     cardIcon.setAttribute('alt', info.weather[0].description);
     cardIcon.setAttribute('style', 'position: relative; left: 1.8em;')
 
@@ -186,7 +186,7 @@ function displayHistory() {
 // separate function for the initial query so that the default display (Atlanta) 
 // does not appear in the user's search history
 function getWeatherInit (query) {
-    let apiUrl = 'http://api.openweathermap.org/data/2.5/weather?units=imperial&q=' + query + '&appid=' + APIkey;
+    let apiUrl = 'https://api.openweathermap.org/data/2.5/weather?units=imperial&q=' + query + '&appid=' + APIkey;
 
     fetch(apiUrl).then(function(response){
         if (response.ok) {
