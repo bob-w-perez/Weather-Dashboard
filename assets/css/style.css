@@ -11,7 +11,7 @@ body {
     position: relative;
     z-index: 1;
     color: #000C70;
-}
+    font-family: 'Comfortaa', cursive;}
 
 body::before {
     position: absolute;
@@ -73,6 +73,7 @@ p {
 header {
     color: #0214A8;
     text-align: center;
+    font-family: 'Tajawal', sans-serif;
     position: relative;
     z-index: 1;
     margin-bottom: 1em;
@@ -113,9 +114,10 @@ main {
 
 input[type='submit'] {
     display: block;
-    background-color: rgb(232, 232, 232);
+    background-color: rgb(145, 182, 179);
     padding: 0.2em;
     margin-top: 0.5em;
+    font-weight: 700;
     margin-bottom: 1.5em;
     width: 8em;
     border-radius: 2px;
@@ -124,11 +126,11 @@ input[type='submit'] {
 }
 
 input[type='submit']:hover {
-    background-color: rgb(201, 201, 201);
+    background-color: rgb(97, 170, 166);
 }
 
 input[type='submit']:active {
-    background-color: rgb(232, 232, 232);
+    background-color: rgb(81, 211, 216);
 }
 
 .saved-city {
@@ -138,6 +140,7 @@ input[type='submit']:active {
     border-radius: 0.5em;
     border: solid black;
     text-align: center;
+    font-weight: 600;
     padding: 0.2em;
     position: relative;
     z-index: 1;
@@ -175,7 +178,7 @@ input[type='submit']:active {
 }
 
 #current-date{
-    margin-top:-0.3em;
+    /* margin-top:-0.3em; */
 }
 
 #current-icon {
@@ -201,6 +204,10 @@ input[type='submit']:active {
     padding-bottom: 2em;
 }
 
+#weather-info p {
+    font-weight: 900;
+}
+
 .forecast-card {
     padding: 0.7em;
     position: relative;
@@ -208,6 +215,10 @@ input[type='submit']:active {
     margin: 1em;
     border-radius: 0.6em;
     border: solid darkblue;
+}
+
+.forecast-card p {
+    font-weight: 900;
 }
 
 .forecast-card::before {
