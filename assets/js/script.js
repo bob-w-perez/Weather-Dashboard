@@ -10,9 +10,12 @@ const searchForm = document.getElementById('search-form');
 const stateSelect = document.getElementById('state');
 const searchHistory = document.getElementById('search-history');
 const stateAbv = [ 'none','AL', 'AK', 'AS', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FM', 'FL', 'GA', 'GU', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MH', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'MP', 'OH', 'OK', 'OR', 'PW', 'PA', 'PR', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VI', 'VA', 'WA', 'WV', 'WI', 'WY' ];
+let cityList = [];
+
 
 
 function init() {
+    loadCityList();
     getWeatherInit('Atlanta', 'GA');
     displayHistory();
     stateAbv.forEach(state => {
@@ -58,7 +61,7 @@ function getWeatherInfo (query, state) {
             });
         } else {
             // look for alternatives here
-            alert('ERROR');
+            alert('ERROR: Page not found. Check the spelling of your query and try again.');
             console.error(response.status);
         }
     });
@@ -80,7 +83,7 @@ function oneCallPass (lat, lon, location, state) {
             })
         } else {
             // look for alternatives here            
-            alert('ERROR');
+            alert('ERROR: Page not found.');
             console.error(response.status);
         }
     });
@@ -219,7 +222,7 @@ function getWeatherInit (query, state) {
             });
         } else {
             // look for alternatives here
-            alert('ERROR');
+            alert('ERROR: Page not found.');
             console.error(response.status);
         }
     });
@@ -238,6 +241,21 @@ function historyQuery (event) {
         }
     }
 }
+
+
+function loadCityList () {
+    fetch('./assets/city.list.min.json').then(function(response){
+        return response.json();
+    }).then(function(data) {
+        returnCityList(data);
+    })
+}
+
+function returnCityList(data) {
+    console.log(data)
+    cityList = data;
+}
+
 
 
 searchForm.addEventListener('submit', handleSearch);
