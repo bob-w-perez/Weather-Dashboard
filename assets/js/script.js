@@ -7,12 +7,21 @@ const currentWind = document.getElementById('current-wind');
 const currentHum = document.getElementById('current-humidity');
 const currentUvi = document.getElementById('current-uvi');
 const searchForm = document.getElementById('search-form');
+const stateSelect = document.getElementById('state');
 const searchHistory = document.getElementById('search-history');
+const stateAbv = [ 'none','AL', 'AK', 'AS', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FM', 'FL', 'GA', 'GU', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MH', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'MP', 'OH', 'OK', 'OR', 'PW', 'PA', 'PR', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VI', 'VA', 'WA', 'WV', 'WI', 'WY' ];
 
 
 function init() {
     getWeatherInit('Atlanta');
     displayHistory();
+    stateAbv.forEach(state => {
+        let option = document.createElement("option");
+        option.text = state;
+        option.value = state;
+        stateSelect.appendChild(option);
+    });
+
 }
 
 init();
