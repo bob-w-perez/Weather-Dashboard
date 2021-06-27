@@ -7,12 +7,20 @@ const currentWind = document.getElementById('current-wind');
 const currentHum = document.getElementById('current-humidity');
 const currentUvi = document.getElementById('current-uvi');
 const searchForm = document.getElementById('search-form');
+const stateSelect = document.getElementById('state');
 const searchHistory = document.getElementById('search-history');
+const stateAbv = [ 'none','AL', 'AK', 'AS', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FM', 'FL', 'GA', 'GU', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MH', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'MP', 'OH', 'OK', 'OR', 'PW', 'PA', 'PR', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VI', 'VA', 'WA', 'WV', 'WI', 'WY' ];
 
 
 function init() {
-    getWeatherInit('Atlanta');
+    getWeatherInit('Atlanta', 'GA');
     displayHistory();
+    stateAbv.forEach(state => {
+        let option = document.createElement("option");
+        option.text = state;
+        option.value = state;
+        stateSelect.appendChild(option);
+    });
 
 }
 
@@ -22,20 +30,31 @@ init();
 function handleSearch (event) {
     event.preventDefault();
     let query = document.getElementById('query').value.trim(); 
-    getWeatherInfo(query);
+    let state = stateSelect.value;
+    getWeatherInfo(query, state);
     document.getElementById('query').value = '';
+    document.getElementById('state').value = '';
 }
 
 
-function getWeatherInfo (query) {
-    let apiUrl = 'https://api.openweathermap.org/data/2.5/weather?units=imperial&q=' + query + '&appid=' + APIkey;
+function getWeatherInfo (query, state) {
+    if (state == '' || state == 'none') {
+        var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?units=imperial&q=' + query + '&appid=' + APIkey;
+        var stateName = '';     
+    } else {
+        var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?units=imperial&q=' + query + ',' + state + ',us&appid=' + APIkey;
+        var stateName = ', ' + state;
+        console.log(apiUrl)
+
+    }
 
     fetch(apiUrl).then(function(response){
         if (response.ok) {
             response.json().then(function(data){
-                oneCallPass(data.coord.lat, data.coord.lon, data.name);
+                console.log(data) /// DEKLETE  AFTER ADDING SEARCH FUNCTION
+                oneCallPass(data.coord.lat, data.coord.lon, data.name, stateName);
                 //addSearchHistory() called here to ensure name is valid
-                addSearchHistory(data.name);
+                addSearchHistory(data.name, stateName);
             });
         } else {
             // look for alternatives here
@@ -50,15 +69,13 @@ function getWeatherInfo (query) {
 // the 'onecall' endpoint does however it only accepts Lat/Lon query parameters
 // so this function takes the Lat/Lon values retrieved from the 'weather' results
 // and uses them to make a request using 'onecall'
-function oneCallPass (lat, lon, location) {
+function oneCallPass (lat, lon, location, state) {
     let apiUrl = 'https://api.openweathermap.org/data/2.5/onecall?units=imperial&lat=' + lat + '&lon=' + lon + '&appid=' + APIkey;
 
     fetch(apiUrl).then(function(response) {
         if(response.ok){ 
             response.json().then(function(data){
-                displayCurrent(data.current, location);
-                // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  DELETE
-                console.log(data);
+                displayCurrent(data.current, location, state);
                 displayCards(data.daily);
             })
         } else {
@@ -70,8 +87,8 @@ function oneCallPass (lat, lon, location) {
 }
 
 
-function displayCurrent(info, location) {
-    cityName.innerHTML = location;
+function displayCurrent(info, location, state) {
+    cityName.innerHTML = location + state;
     todayDate.textContent = moment().format('MMMM Do, YYYY');
     currentIcon.setAttribute('src', 'https://openweathermap.org/img/w/' + info.weather[0].icon + '.png');
     currentIcon.setAttribute('alt', info.weather[0].description);
@@ -149,21 +166,21 @@ function displayCards (forecast) {
 
 }
 
-function addSearchHistory (search) {
+function addSearchHistory (search, state) {
     let storedHistory = JSON.parse(localStorage.getItem('history'));
-    if (storedHistory && !storedHistory.includes(search)) {
-        storedHistory.push(search);
+    if (storedHistory && !storedHistory.includes(search + state)) {
+        storedHistory.push(search + state);
         localStorage.setItem('history', JSON.stringify(storedHistory));
         let savedCity = document.createElement('p');
-        savedCity.textContent = search;
+        savedCity.textContent = search + state;
         savedCity.classList.add('saved-city');
         searchHistory.append(savedCity);
 
 
     } else if (!storedHistory) {
-        localStorage.setItem('history', JSON.stringify([search]));
+        localStorage.setItem('history', JSON.stringify([search + state]));
         let savedCity = document.createElement('p');
-        savedCity.textContent = search;
+        savedCity.textContent = search + state;
         savedCity.classList.add('saved-city');
         searchHistory.append(savedCity);   
     } 
@@ -185,13 +202,20 @@ function displayHistory() {
 
 // separate function for the initial query so that the default display (Atlanta) 
 // does not appear in the user's search history
-function getWeatherInit (query) {
-    let apiUrl = 'https://api.openweathermap.org/data/2.5/weather?units=imperial&q=' + query + '&appid=' + APIkey;
+function getWeatherInit (query, state) {
+    if (state == '' || state == 'none') {
+        var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?units=imperial&q=' + query + '&appid=' + APIkey;
+        var stateName = '';
+     
+    } else {
+        var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?units=imperial&q=' + query + ',' + state + ',us&appid=' + APIkey;
+        var stateName = ', ' + state;
 
+    }
     fetch(apiUrl).then(function(response){
         if (response.ok) {
             response.json().then(function(data){
-                oneCallPass(data.coord.lat, data.coord.lon, data.name);
+                oneCallPass(data.coord.lat, data.coord.lon, data.name, stateName);
             });
         } else {
             // look for alternatives here
@@ -206,7 +230,12 @@ function historyQuery (event) {
     let query = event.target;
 
     if (query.matches('.saved-city')) {
-        getWeatherInfo(query.textContent);
+        let qSplit = query.textContent.split(', ');
+        if (qSplit.length == 2){
+            getWeatherInfo(qSplit[0], qSplit[[1]]);
+        } else {
+            getWeatherInfo(qSplit[0], 'none')
+        }
     }
 }
 
