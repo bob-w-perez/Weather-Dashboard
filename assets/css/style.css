@@ -2,8 +2,40 @@
     font-size: 20px;
 }
 
-body {
+html {
+    display: grid;
+    grid-template-columns: 1fr;
+}
 
+body {
+    position: relative;
+    z-index: 1;
+    color: #000C70;
+}
+
+body::before {
+    position: absolute;
+    content: "";
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: url('../images/background2.jfif');
+    background-size: cover;
+    z-index: -2;
+    opacity: 0.3;
+}
+
+body::after {
+    position: absolute;
+    content: "";
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient( 0deg, darkcyan, white );
+    z-index: -1;
+    opacity: 0.5;
 }
 
 h1{
@@ -18,8 +50,18 @@ h3 {
     font-size: 1.7em;
 }
 
+h4 {
+    font-size: 1.3em;
+}
+
+h5 {
+    font-size: 1.2em;
+    border-bottom: solid;
+}
+
 span {
-    margin: 0 0.2em;
+    margin: 0 0.2em 0 0;  
+
 }
 
 p {
@@ -29,13 +71,58 @@ p {
 /*----------------------------------------------------*/
 
 header {
-    background-color: blue;
-    color: white;
+    color: #000C70;
     text-align: center;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 1em;
+    box-shadow: 0px -10px 50px 0px blue;
+}
+
+header::before{
+    position: absolute;
+    content: "";
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: radial-gradient(white, blue) ;
+    z-index: -1;
+    opacity: 0.5;
 }
 
 #grid-wrapper {
     display: grid;
+    /* padding: 1em; */
+}
+
+aside {
+    padding: 1em;
+}
+
+#city-name {
+    /* margin: 0 0.2em 0 0;   */
+    font-size: 1.3em;
+    color: #0214A8 ;
+    border-bottom: solid #0214A8;
+    /* padding: 0.1em 0.1em 0.1em 0.3em;
+    border-radius: 0.3em;
+    box-shadow: 0px 0px 20px -5px darkblue, inset 0px 0px 20px -15px darkblue; */
+
+}
+
+#current-date{
+    margin-top:-0.8em;
+}
+
+#current-icon {
+    display: inline;
+    position: relative;
+    top: 0.5em;
+    width: 5%;
+    height: 5%;
+    background: radial-gradient(darkcyan,rgb(255,255,255,0) 70%);
+    border-radius: 5em;
 }
 
 #current-uvi {
@@ -44,10 +131,43 @@ header {
     border-radius: 0.1em;
 }
 
+#weather-info {
+    margin-bottom: 1.5em;
+    border-bottom: solid darkblue;
+    padding-bottom: 2em;
+}
+
+.forecast-card {
+    padding: 0.7em;
+    position: relative;
+    z-index: 1;
+    margin: 1em;
+    border-radius: 0.6em;
+    border: solid darkblue;
+}
+
+.forecast-card::before {
+    position: absolute;
+    content: "";
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: darkcyan;
+    /* border-radius: 0.2em; */
+    z-index: -1;
+    opacity: 0.5;
+}
+
 /*----------------------------------------------------*/
 
 @media screen and (min-width: 800px) {
     #grid-wrapper {
         grid-template-columns: 1fr 3fr;
+    }
+
+    #forecast-card-wrapper {
+        display: flex;
+        flex-direction: row;
     }
 }

@@ -23,36 +23,25 @@
             <div id="search-form-wrapper">
                 <form id="search-form">
                     <h2>Search for a City:</h2>
-                    <input id="query" type="text" placeholder="Atlanta" required/>
+                    <input id="query" type="text" placeholder="City" required/>
                     <input type="submit" value="Search"/>
                 </form>
             </div>
-            <div id="search-history">
-                <!-- placeholder content-->
-                <p>city 1</p>
-                <p>city 2</p>
-                <p>city 3</p>
-            </div>
+            <div id="search-history"></div>
         </aside>
 
         <main>
             <div id="weather-info">
-                <h2><span id="city-name">ATLANTA</span><span id="today-date"></span><span id="current-icon">icon</span></h2>
-                <p id="current-temp">Temp:</p>
-                <p id="current-wind">Wind:</p>
-                <p id="current-humidity">Humidity:</p>
-                <p >UV Index: <span id="current-uvi"></span></p>
+                <h2 id="current-title"><span id="city-name"></span></h2>
+                <h2 id="current-date"><span id="today-date"></span><img id="current-icon" src="" alt=""></h2>
+                <p id="current-temp"></p>
+                <p id="current-wind"></p>
+                <p id="current-humidity"></p>
+                <p>UV Index: <span id="current-uvi"></span></p>
             </div>
             <div id="forecast">
                 <h3>5-Day Forecast:</h3>
-                <div id="forecast-card-wrapper">
-                    <!-- placeholder content-->
-                    <p>card 1</p>
-                    <p>card 2</p>
-                    <p>card 3</p>
-                    <p>card 4</p>
-                    <p>card 5</p>
-                </div>
+                <div id="forecast-card-wrapper"></div>
             </div>
         </main>
     </div>
