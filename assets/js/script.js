@@ -56,6 +56,7 @@ function oneCallPass (lat, lon, location) {
         if(response.ok){ 
             response.json().then(function(data){
                 displayCurrent(data.current, location);
+                // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  DELETE
                 console.log(data);
                 displayCards(data.daily);
             })
@@ -200,4 +201,14 @@ function getWeatherInit (query) {
 }
 
 
+function historyQuery (event) {
+    let query = event.target;
+
+    if (query.matches('.saved-city')) {
+        getWeatherInfo(query.textContent);
+    }
+}
+
+
 searchForm.addEventListener('submit', handleSearch);
+searchHistory.addEventListener('click', historyQuery)
