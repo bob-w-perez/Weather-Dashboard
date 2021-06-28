@@ -14,6 +14,8 @@ let cityList = [];
 let counter;
 
 
+// when page loads this function runs a query for 'Atlanta, GA' so that all the
+// dynamically created elements are on the page before the user searches
 function init() {
     counter = 0;
     loadCityList();
@@ -27,6 +29,7 @@ function init() {
     });
 }
 
+// init function called
 init();
 
 
@@ -40,6 +43,8 @@ function handleSearch (event) {
 }
 
 
+// this function makes an api request based on user input, then gets the 'lat' and 'lon'
+// values for that city and passes them to another function
 function getWeatherInfo (query, state) {
     if (state == '' || state == 'none') {
         var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?units=imperial&q=' + query + '&appid=' + APIkey;
@@ -52,6 +57,10 @@ function getWeatherInfo (query, state) {
     fetch(apiUrl).then(function(response){
         if (response.ok) {
             response.json().then(function(data){
+                // this conditional uses a counter so that the automatic query that
+                // happens when the page loads/refreshes does net get checked -- the 
+                // 'cityList' that checkCityID() uses is very large and sometimes doesn't
+                // load in time for to bed used for the init() query, resulting in an error
                 if (counter > 0){
                     if (checkCityID(data.id, state)) {
                         oneCallPass(data.coord.lat, data.coord.lon, data.name, stateName);
@@ -63,7 +72,7 @@ function getWeatherInfo (query, state) {
                 }
             });
         } else {
-            // look for alternatives here
+            // there might be a better way to handle potential errors, but this works for now
             alert('ERROR: Page not found. Check the spelling of your query and try again.');
             console.error(response.status);
         }
@@ -83,14 +92,17 @@ function oneCallPass (lat, lon, location, state) {
             response.json().then(function(data){
                 displayCurrent(data.current, location, state);
                 displayCards(data.daily);
+                // this connditional uses the same counter as the one above so that the 
+                // init() query doesn't get stored in the user's search history since
+                // it is not something that they input
                 if (counter > 0){
-                    //addSearchHistory() called here to ensure name is valid
                     addSearchHistory(location, state);
                 }
+                // adds to counter so subsequent queries are checked and added to search history
                 counter++;
             })
         } else {
-            // look for alternatives here            
+            // there might be a better way to handle potential errors, but this works for now
             alert('ERROR: Page not found.');
             console.error(response.status);
         }
@@ -129,7 +141,7 @@ function displayCurrent(info, location, state) {
     }
 }
 
-// console log info.dt
+
 function makeCard (info) {    
     let card = document.createElement('div');
     card.setAttribute('class','forecast-card');
@@ -177,6 +189,7 @@ function displayCards (forecast) {
 
 }
 
+
 function addSearchHistory (search, state) {
     let storedHistory = JSON.parse(localStorage.getItem('history'));
     if (storedHistory && !storedHistory.includes(search + state)) {
@@ -196,6 +209,7 @@ function addSearchHistory (search, state) {
         searchHistory.append(savedCity);   
     } 
 }
+
 
 function displayHistory() {
     let storedHistory = JSON.parse(localStorage.getItem('history'));
@@ -225,20 +239,28 @@ function historyQuery (event) {
     }
 }
 
-
+// stores a list of the all the cites used by OpenWeatherMap to a variable
+// so that the city/state combination the user inputs can be verified
+// as an existing place (e.g., so nothing will display for 'Atlanta, CO' 
+// which would not throw an error because the API ignores the state and
+// returns their default for that city if a query is made with a 
+// non-existent city/state combo)
 function loadCityList () {
     fetch('./assets/city.list.min.json').then(function(response){
         return response.json();
     }).then(function(data) {
-        returnCityList(data);
+        cityList = data;
     })
 }
 
-function returnCityList(data) {
-    cityList = data;
-}
+
+// function returnCityList(data) {
+//     cityList = data;
+// }
+
 
 function checkCityID(cityID, state){
+    console.log(cityList)
 
     if (state != '' && state != 'none'){
         let cityData;
