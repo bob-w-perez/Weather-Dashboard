@@ -47,17 +47,16 @@ function getWeatherInfo (query, state) {
     } else {
         var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?units=imperial&q=' + query + ',' + state + ',us&appid=' + APIkey;
         var stateName = ', ' + state;
-        console.log(apiUrl)
-
     }
 
     fetch(apiUrl).then(function(response){
         if (response.ok) {
             response.json().then(function(data){
-                console.log(data) /// DEKLETE  AFTER ADDING SEARCH FUNCTION
-                oneCallPass(data.coord.lat, data.coord.lon, data.name, stateName);
-                //addSearchHistory() called here to ensure name is valid
-                addSearchHistory(data.name, stateName);
+                if (checkCityID(data.id, state)) {
+                    oneCallPass(data.coord.lat, data.coord.lon, data.name, stateName);
+                } else {
+                    alert(query + stateName +' does not exist. Please try another state or leave state blank.')
+                }        
             });
         } else {
             // look for alternatives here
@@ -80,6 +79,8 @@ function oneCallPass (lat, lon, location, state) {
             response.json().then(function(data){
                 displayCurrent(data.current, location, state);
                 displayCards(data.daily);
+                //addSearchHistory() called here to ensure name is valid
+                addSearchHistory(location, state);
             })
         } else {
             // look for alternatives here            
@@ -218,7 +219,20 @@ function getWeatherInit (query, state) {
     fetch(apiUrl).then(function(response){
         if (response.ok) {
             response.json().then(function(data){
-                oneCallPass(data.coord.lat, data.coord.lon, data.name, stateName);
+                let apiUrl = 'https://api.openweathermap.org/data/2.5/onecall?units=imperial&lat=' + data.coord.lat + '&lon=' + data.coord.lon + '&appid=' + APIkey;
+
+                fetch(apiUrl).then(function(response) {
+                    if(response.ok){ 
+                        response.json().then(function(data){
+                            displayCurrent(data.current, query, stateName);
+                            displayCards(data.daily);
+                        })
+                    } else {
+                        // look for alternatives here            
+                        alert('ERROR: Page not found.');
+                        console.error(response.status);
+                    }
+                });
             });
         } else {
             // look for alternatives here
@@ -252,8 +266,27 @@ function loadCityList () {
 }
 
 function returnCityList(data) {
-    console.log(data)
     cityList = data;
+}
+
+function checkCityID(cityID, state){
+
+    if (state != '' && state != 'none'){
+        let cityData;
+        for (let i = 0; i < cityList.length; i++) {
+            if (cityID == cityList[i].id) {
+                cityData = cityList[i];
+            }
+        }
+        if (state == cityData.state) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return true;
+    }
+
 }
 
 

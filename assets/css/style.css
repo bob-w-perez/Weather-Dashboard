@@ -103,6 +103,7 @@ aside {
 
 main {
     width: fit-content;
+    padding-left: 1em;
 }
 
 #query {
@@ -135,10 +136,11 @@ input[type='submit']:active {
     background-color: rgb(81, 211, 216);
 }
 
+
 .saved-city {
     color: rgb(213, 213, 213);
     margin: 1em 0;
-    width: 8em;
+    width: 80vw;
     border-radius: 0.5em;
     border: solid black;
     text-align: center;
@@ -184,11 +186,10 @@ input[type='submit']:active {
 }
 
 #current-icon {
-    display: inline;
+    display: block;
     position: relative;
-    top: 0.5em;
-    width: 5%;
-    height: 5%;
+    width: 20%;
+    height: 20%;
     background: radial-gradient(darkcyan,rgb(255,255,255,0) 70%);
     border-radius: 5em;
 }
@@ -204,6 +205,9 @@ input[type='submit']:active {
     margin-bottom: 1.5em;
     border-bottom: solid darkblue;
     padding-bottom: 2em;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
 }
 
 #weather-info p {
@@ -214,7 +218,8 @@ input[type='submit']:active {
     padding: 0.7em;
     position: relative;
     z-index: 1;
-    margin: 1em;
+    margin: 1em 0;
+    width: 80vw;
     border-radius: 0.6em;
     border: solid darkblue;
 }
@@ -238,7 +243,7 @@ input[type='submit']:active {
 
 /*----------------------------------------------------*/
 
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 600px) {
     #grid-wrapper {
         grid-template-columns: 1fr 3fr;
     }
@@ -246,5 +251,21 @@ input[type='submit']:active {
     #forecast-card-wrapper {
         display: flex;
         flex-direction: row;
+    }
+
+    .saved-city {
+        width: 8em;
+    }
+
+    .forecast-card {
+        width: 9em;
+        margin: 1em;
+    }
+
+    #current-icon {
+        display: inline;
+        top: 0.3em;
+        width: 5%;
+        height: 5%;
     }
 }
