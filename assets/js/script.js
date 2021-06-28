@@ -11,12 +11,13 @@ const stateSelect = document.getElementById('state');
 const searchHistory = document.getElementById('search-history');
 const stateAbv = [ 'none','AL', 'AK', 'AS', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FM', 'FL', 'GA', 'GU', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MH', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'MP', 'OH', 'OK', 'OR', 'PW', 'PA', 'PR', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VI', 'VA', 'WA', 'WV', 'WI', 'WY' ];
 let cityList = [];
-
+let counter;
 
 
 function init() {
+    counter = 0;
     loadCityList();
-    getWeatherInit('Atlanta', 'GA');
+    getWeatherInfo('Atlanta', 'GA');
     displayHistory();
     stateAbv.forEach(state => {
         let option = document.createElement("option");
@@ -24,7 +25,6 @@ function init() {
         option.value = state;
         stateSelect.appendChild(option);
     });
-
 }
 
 init();
@@ -52,11 +52,15 @@ function getWeatherInfo (query, state) {
     fetch(apiUrl).then(function(response){
         if (response.ok) {
             response.json().then(function(data){
-                if (checkCityID(data.id, state)) {
-                    oneCallPass(data.coord.lat, data.coord.lon, data.name, stateName);
+                if (counter > 0){
+                    if (checkCityID(data.id, state)) {
+                        oneCallPass(data.coord.lat, data.coord.lon, data.name, stateName);
+                    } else {
+                        alert(query + stateName +' does not exist. Please try another state or leave state blank.')
+                    }    
                 } else {
-                    alert(query + stateName +' does not exist. Please try another state or leave state blank.')
-                }        
+                    oneCallPass(data.coord.lat, data.coord.lon, data.name, stateName);
+                }
             });
         } else {
             // look for alternatives here
@@ -79,8 +83,11 @@ function oneCallPass (lat, lon, location, state) {
             response.json().then(function(data){
                 displayCurrent(data.current, location, state);
                 displayCards(data.daily);
-                //addSearchHistory() called here to ensure name is valid
-                addSearchHistory(location, state);
+                if (counter > 0){
+                    //addSearchHistory() called here to ensure name is valid
+                    addSearchHistory(location, state);
+                }
+                counter++;
             })
         } else {
             // look for alternatives here            
@@ -203,44 +210,6 @@ function displayHistory() {
     }
 }
 
-
-// separate function for the initial query so that the default display (Atlanta) 
-// does not appear in the user's search history
-function getWeatherInit (query, state) {
-    if (state == '' || state == 'none') {
-        var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?units=imperial&q=' + query + '&appid=' + APIkey;
-        var stateName = '';
-     
-    } else {
-        var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?units=imperial&q=' + query + ',' + state + ',us&appid=' + APIkey;
-        var stateName = ', ' + state;
-
-    }
-    fetch(apiUrl).then(function(response){
-        if (response.ok) {
-            response.json().then(function(data){
-                let apiUrl = 'https://api.openweathermap.org/data/2.5/onecall?units=imperial&lat=' + data.coord.lat + '&lon=' + data.coord.lon + '&appid=' + APIkey;
-
-                fetch(apiUrl).then(function(response) {
-                    if(response.ok){ 
-                        response.json().then(function(data){
-                            displayCurrent(data.current, query, stateName);
-                            displayCards(data.daily);
-                        })
-                    } else {
-                        // look for alternatives here            
-                        alert('ERROR: Page not found.');
-                        console.error(response.status);
-                    }
-                });
-            });
-        } else {
-            // look for alternatives here
-            alert('ERROR: Page not found.');
-            console.error(response.status);
-        }
-    });
-}
 
 
 function historyQuery (event) {
