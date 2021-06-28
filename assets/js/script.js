@@ -254,14 +254,7 @@ function loadCityList () {
 }
 
 
-// function returnCityList(data) {
-//     cityList = data;
-// }
-
-
 function checkCityID(cityID, state){
-    console.log(cityList)
-
     if (state != '' && state != 'none'){
         let cityData;
         for (let i = 0; i < cityList.length; i++) {
@@ -277,7 +270,6 @@ function checkCityID(cityID, state){
     } else {
         return true;
     }
-
 }
 
 
