@@ -1,10 +1,11 @@
 # Weather-Dashboard-HW6
-# Work-Day-Scheduler-HW5
 
 
 - This project was to make a weather app that retrieved data from the OpenWeatherMap API based on user input, then displayed some of the current and forecast data to the user
 
 - The project only required the user to input a city (no state input) and the API would return the largest city with that name. However, since there are multiple cites with the same name, I added a feature for the user to be able to specify a state. This input is not required and the user can leave it blank if they choose, giving them the option of a higher quality experience but not forcing them to use it.
+
+- HTML, CSS, JavaScript, Moment.js, Google Fonts
 ## Installation
 
 No installation required.
@@ -49,6 +50,10 @@ The code and all relevant files can be found at [https://github.com/bob-w-perez/
 
 ## Contributing
 Solo project for GATech Coding Bootcamp
+by Rob Perez
+- [Portfolio Page]https://bob-w-perez.github.io/Portfolio-Page/)
+- bob.w.perez@gmail.com
+- 404.317.5336
 
 <br>
 
