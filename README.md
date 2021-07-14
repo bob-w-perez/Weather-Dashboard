@@ -1,4 +1,4 @@
-# Weather-Dashboard-HW6
+# Weather-Dashboard
 
 
 - This project was to make a weather app that retrieved data from the OpenWeatherMap API based on user input, then displayed some of the current and forecast data to the user
