@@ -47,12 +47,11 @@ The code and all relevant files can be found at [https://github.com/bob-w-perez/
 
 
 <br>
-
 ## Contributing
 Solo project for GATech Coding Bootcamp
 by Rob Perez
-- [Portfolio Page]https://bob-w-perez.github.io/Portfolio-Page/)
-- bob.w.perez@gmail.com
+- [Portfolio Page](https://www.robperez.net)
+- rob@robperez.net
 - 404.317.5336
 
 <br>
