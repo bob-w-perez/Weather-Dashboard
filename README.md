@@ -9,9 +9,9 @@
 ## Installation
 
 No installation required.
-Go to [https://bob-w-perez.github.io/Weather-Dashboard-HW6/](https://bob-w-perez.github.io/Weather-Dashboard-HW6/) to use the application.
+Go to [https://perez-rob.github.io/Weather-Dashboard-HW6/](https://perez-rob.github.io/Weather-Dashboard-HW6/) to use the application.
 
-The code and all relevant files can be found at [https://github.com/bob-w-perez/Weather-Dashboard-HW6](https://github.com/bob-w-perez/Weather-Dashboard-HW6). 
+The code and all relevant files can be found at [https://github.com/perez-rob/Weather-Dashboard-HW6](https://github.com/perez-rob/Weather-Dashboard-HW6). 
 
 ## Usage
 
